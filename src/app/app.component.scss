@@ -1,6 +1,16 @@
 :host {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
+  height: 100%;
+}
+
+.image-wrapper {
+  width: 70%;
+  height: 70%;
+  max-width: 800px;
+  max-height: 800px;
 }
 
 img[apzImage] {
