@@ -36,6 +36,7 @@
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
     "@cypress/webpack-dev-server": "^2.0.0",
+    "@faker-js/faker": "^7.6.0",
     "@nrwl/cypress": "15.7.2",
     "@nrwl/eslint-plugin-nx": "15.7.2",
     "@nrwl/jest": "15.7.2",
