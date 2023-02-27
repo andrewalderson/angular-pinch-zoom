@@ -5,25 +5,97 @@ import {
   ElementRef,
   HostBinding,
   inject,
+  OnDestroy,
 } from '@angular/core';
+import { filter, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import {
+  PointerTracker,
+  PointerTrackerFactory,
+} from '../pointer/pointer-tracker';
+import { getDistance } from '../utils/math';
 import { ApzImageDirective } from './image.directive';
 
 @Directive({
   selector: '[apzImage][zoomable]',
   standalone: true,
 })
-export class ApzImageZoomableDirective implements AfterViewInit {
+export class ApzImageZoomableDirective implements AfterViewInit, OnDestroy {
   @HostBinding('class') readonly _hostClasses = 'apz-image--zoomable';
 
   #elementRef = inject(ElementRef<HTMLElement>);
   #image = inject(ApzImageDirective, { self: true });
+  #pointerTrackerFactory = inject(PointerTrackerFactory);
+  #pointerTracker!: PointerTracker;
+  #destroyed = new Subject<void>();
+
+  #previousPointers?: PointerEvent[];
 
   ngAfterViewInit() {
-    const element = coerceElement(this.#elementRef) as EventTarget;
+    const element = coerceElement(this.#elementRef);
+    this.#pointerTracker = this.#pointerTrackerFactory.create(
+      coerceElement(element)
+    );
+
     element.addEventListener('wheel', this.onwheel, {
       passive: false, // some browsers default this to true. It needs to be false for 'event.preventDefault()' to work
       capture: true,
     });
+
+    this.#pointerTracker.start
+      .pipe(
+        takeUntil(this.#destroyed),
+        filter(() => this.#pointerTracker.currentPointers.size === 2),
+        tap((event: PointerEvent) => event.preventDefault()),
+        tap(
+          () =>
+            (this.#previousPointers = Array.from(
+              this.#pointerTracker.currentPointers.values()
+            ))
+        ),
+        switchMap(() =>
+          this.#pointerTracker.move.pipe(
+            takeUntil(
+              this.#pointerTracker.end.pipe(
+                filter(() => this.#pointerTracker.currentPointers.size === 0)
+              )
+            ),
+            filter(
+              () =>
+                this.#previousPointers?.length === 2 &&
+                this.#pointerTracker.currentPointers.size === 2
+            ),
+            tap((event: PointerEvent) => event.preventDefault()),
+            map(() =>
+              Array.from(this.#pointerTracker.currentPointers.values())
+            ),
+            map((currentPointers: PointerEvent[]) =>
+              getDistance(currentPointers[0], currentPointers[1])
+            ),
+            map(
+              (newDistance: number) =>
+                (newDistance -
+                  getDistance(
+                    this.#previousPointers?.[0],
+                    this.#previousPointers?.[1]
+                  )) *
+                0.1
+            ),
+            tap(
+              () =>
+                (this.#previousPointers = Array.from(
+                  this.#pointerTracker.currentPointers.values()
+                ))
+            ),
+            filter((scale) => scale !== 0)
+          )
+        )
+      )
+      .subscribe((scale: number) => this.#image.zoom(scale));
+  }
+
+  ngOnDestroy(): void {
+    this.#destroyed.next();
+    this.#destroyed.complete();
   }
 
   onwheel = (event: Event) => {

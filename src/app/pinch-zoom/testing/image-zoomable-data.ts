@@ -332,7 +332,482 @@ export const trackpadScaleSteps = [
     ],
   },
 ];
+
+const touchScaleSteps = [
+  {
+    imageWidth: 400,
+    imageHeight: 400,
+    scaleStep: 0.1,
+    values: [
+      {
+        event: {
+          type: 'pointerdown',
+          options: {
+            pointerId: 1,
+            x: 50,
+            y: 50,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: 60,
+            y: 60,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointerdown',
+          options: {
+            pointerId: 2,
+            x: 50,
+            y: 50,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: 70,
+            y: 70,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -20,
+        y: -20,
+        width: 440,
+        height: 440,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 2,
+            x: 40,
+            y: 40,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -42,
+        y: -42,
+        width: 484,
+        height: 484,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 2,
+            x: 50,
+            y: 50,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -20,
+        y: -20,
+        width: 440,
+        height: 440,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: 60,
+            y: 60,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointerup',
+          options: {
+            pointerId: 1,
+            x: 60,
+            y: 60,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 2,
+            x: 70,
+            y: 70,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointerup',
+          options: {
+            pointerId: 2,
+            x: 70,
+            y: 70,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+    ],
+  },
+  {
+    imageWidth: 400,
+    imageHeight: 400,
+    scaleStep: 0.2,
+    values: [
+      {
+        event: {
+          type: 'pointerdown',
+          options: {
+            pointerId: 1,
+            x: 50,
+            y: 50,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: 60,
+            y: 60,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointerdown',
+          options: {
+            pointerId: 2,
+            x: 50,
+            y: 50,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: 70,
+            y: 70,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -40,
+        y: -40,
+        width: 480,
+        height: 480,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 2,
+            x: 40,
+            y: 40,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -88,
+        y: -88,
+        width: 576,
+        height: 576,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 2,
+            x: 50,
+            y: 50,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -40,
+        y: -40,
+        width: 480,
+        height: 480,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: 60,
+            y: 60,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointerup',
+          options: {
+            pointerId: 1,
+            x: 60,
+            y: 60,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 2,
+            x: 70,
+            y: 70,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointerup',
+          options: {
+            pointerId: 2,
+            x: 70,
+            y: 70,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+    ],
+  },
+  {
+    imageWidth: 400,
+    imageHeight: 400,
+    scaleStep: 0.3,
+    values: [
+      {
+        event: {
+          type: 'pointerdown',
+          options: {
+            pointerId: 1,
+            x: 50,
+            y: 50,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: 60,
+            y: 60,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointerdown',
+          options: {
+            pointerId: 2,
+            x: 50,
+            y: 50,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: 70,
+            y: 70,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -60,
+        y: -60,
+        width: 520,
+        height: 520,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 2,
+            x: 40,
+            y: 40,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -138,
+        y: -138,
+        width: 676,
+        height: 676,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 2,
+            x: 50,
+            y: 50,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -60,
+        y: -60,
+        width: 520,
+        height: 520,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: 60,
+            y: 60,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointerup',
+          options: {
+            pointerId: 1,
+            x: 60,
+            y: 60,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 2,
+            x: 70,
+            y: 70,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+      {
+        event: {
+          type: 'pointerup',
+          options: {
+            pointerId: 2,
+            x: 70,
+            y: 70,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: 0,
+        y: 0,
+        width: 400,
+        height: 400,
+      },
+    ],
+  },
+];
 export const allScaleSteps = [
   { type: 'mouse', steps: mouseScaleSteps },
   { type: 'trackpad', steps: trackpadScaleSteps },
+  { type: 'touch', steps: touchScaleSteps },
 ];
