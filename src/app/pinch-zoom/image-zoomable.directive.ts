@@ -7,7 +7,15 @@ import {
   inject,
   OnDestroy,
 } from '@angular/core';
-import { filter, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import {
+  filter,
+  fromEventPattern,
+  map,
+  Subject,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import {
   PointerTracker,
   PointerTrackerFactory,
@@ -36,10 +44,39 @@ export class ApzImageZoomableDirective implements AfterViewInit, OnDestroy {
       coerceElement(element)
     );
 
-    element.addEventListener('wheel', this.onwheel, {
-      passive: false, // some browsers default this to true. It needs to be false for 'event.preventDefault()' to work
-      capture: true,
-    });
+    fromEventPattern<WheelEvent>(
+      (handler) =>
+        element.addEventListener('wheel', handler, {
+          passive: false, // some browsers default this to true. It needs to be false for 'event.preventDefault()' to work
+          capture: true,
+        }),
+      (handler) =>
+        element.removeEventListener('wheel', handler, {
+          passive: false,
+          capture: true,
+        })
+    )
+      .pipe(
+        takeUntil(this.#destroyed),
+        tap((event: WheelEvent) => event.preventDefault()),
+        map(
+          (event: WheelEvent) =>
+            /**
+             * touchpad wheel will have the ctrlKey set to true
+             * We need to zoom in smaller increments on a trackpad to give
+             * the user more control
+             * Yes, a user could use a mouse wheel with the ctrl key also
+             * but they could also just take their finger off of the key
+             *
+             * The deltaY can be different depending on the device
+             * manufacturer and the browser vendor
+             * Math.sign will normalize it to a value of either -1, 0 or 1
+             */
+            Math.sign(event.deltaY) * (event.ctrlKey ? 0.1 : 1)
+        ),
+        filter((scale) => scale !== 0)
+      )
+      .subscribe((scale) => this.#image.zoom(scale));
 
     this.#pointerTracker.start
       .pipe(
@@ -97,26 +134,4 @@ export class ApzImageZoomableDirective implements AfterViewInit, OnDestroy {
     this.#destroyed.next();
     this.#destroyed.complete();
   }
-
-  onwheel = (event: Event) => {
-    event.preventDefault();
-    const { deltaY, ctrlKey } = event as WheelEvent;
-    /**
-     * The deltaY can be different depending on the device
-     * manufacturer and the browser vendor
-     * This will normalize it to a value of either -1, 0 or 1
-     */
-    let scale = Math.sign(deltaY);
-
-    /**
-     * touchpad wheel will have the ctrlKey set to true
-     * We need to zoom in smaller increments on a trackpad to give
-     * the user more control
-     * Yes, a user could use a mouse wheel with the ctrl key also
-     * but they could also just take their finger off of the key
-     */
-    scale = scale * (ctrlKey ? 0.1 : 1);
-
-    this.#image.zoom(scale);
-  };
 }
