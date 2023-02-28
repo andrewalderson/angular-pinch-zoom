@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { faker } from '@faker-js/faker';
 import { ApzImageZoomableDirective } from './pinch-zoom/image-zoomable.directive';
 import { ApzImageDirective } from './pinch-zoom/image.directive';
 
@@ -11,5 +10,5 @@ import { ApzImageDirective } from './pinch-zoom/image.directive';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  src = faker.image.unsplash.image(600, 600);
+  src = 'https://source.unsplash.com/600x600';
 }
