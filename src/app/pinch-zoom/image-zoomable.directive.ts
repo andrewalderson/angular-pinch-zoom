@@ -8,9 +8,12 @@ import {
   OnDestroy,
 } from '@angular/core';
 import {
+  exhaustMap,
   filter,
+  forkJoin,
   fromEventPattern,
   map,
+  of,
   Subject,
   switchMap,
   takeUntil,
@@ -35,8 +38,6 @@ export class ApzImageZoomableDirective implements AfterViewInit, OnDestroy {
   #pointerTrackerFactory = inject(PointerTrackerFactory);
   #pointerTracker!: PointerTracker;
   #destroyed = new Subject<void>();
-
-  #previousPointers?: PointerEvent[];
 
   ngAfterViewInit() {
     const element = coerceElement(this.#elementRef);
@@ -83,12 +84,6 @@ export class ApzImageZoomableDirective implements AfterViewInit, OnDestroy {
         takeUntil(this.#destroyed),
         filter(() => this.#pointerTracker.currentPointers.size === 2),
         tap((event: PointerEvent) => event.preventDefault()),
-        tap(
-          () =>
-            (this.#previousPointers = Array.from(
-              this.#pointerTracker.currentPointers.values()
-            ))
-        ),
         switchMap(() =>
           this.#pointerTracker.move.pipe(
             takeUntil(
@@ -98,32 +93,28 @@ export class ApzImageZoomableDirective implements AfterViewInit, OnDestroy {
             ),
             filter(
               () =>
-                this.#previousPointers?.length === 2 &&
+                this.#pointerTracker.previousPointers.size === 2 &&
                 this.#pointerTracker.currentPointers.size === 2
             ),
             tap((event: PointerEvent) => event.preventDefault()),
-            map(() =>
-              Array.from(this.#pointerTracker.currentPointers.values())
-            ),
-            map((currentPointers: PointerEvent[]) =>
-              getDistance(currentPointers[0], currentPointers[1])
-            ),
-            map(
-              (newDistance: number) =>
-                (newDistance -
-                  getDistance(
-                    this.#previousPointers?.[0],
-                    this.#previousPointers?.[1]
-                  )) *
-                0.1
-            ),
-            tap(
-              () =>
-                (this.#previousPointers = Array.from(
-                  this.#pointerTracker.currentPointers.values()
-                ))
-            ),
-            filter((scale) => scale !== 0)
+            exhaustMap(() =>
+              forkJoin({
+                previous: of(
+                  Array.from(this.#pointerTracker.previousPointers.values())
+                ),
+                current: of(
+                  Array.from(this.#pointerTracker.currentPointers.values())
+                ),
+              }).pipe(
+                map(
+                  ({ previous, current }) =>
+                    (getDistance(current[0], current[1]) -
+                      getDistance(previous[0], previous[1])) *
+                    0.1
+                ),
+                filter((scale) => scale !== 0)
+              )
+            )
           )
         )
       )
