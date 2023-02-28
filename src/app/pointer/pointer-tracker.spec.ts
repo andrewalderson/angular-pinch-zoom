@@ -22,7 +22,7 @@ describe('PoinerTracker', () => {
     tracker = TestBed.inject(PointerTrackerFactory).create(element);
   });
 
-  it('should add, update and delete the events in the currentPointers map', async () => {
+  it('should add, update and delete the events in the pointer maps', async () => {
     tracker.start.subscribe();
 
     let pointerId = 1;
@@ -31,6 +31,8 @@ describe('PoinerTracker', () => {
 
     expect(tracker.currentPointers.size).toEqual(1);
     expect(tracker.currentPointers.get(pointerId)).toBe(event);
+    expect(tracker.startPointers.size).toEqual(1);
+    expect(tracker.startPointers.get(pointerId)).toBe(event);
 
     pointerId = 2;
     event = new PointerEvent('pointerdown', { pointerId });
@@ -38,6 +40,8 @@ describe('PoinerTracker', () => {
 
     expect(tracker.currentPointers.size).toEqual(2);
     expect(tracker.currentPointers.get(pointerId)).toBe(event);
+    expect(tracker.startPointers.size).toEqual(2);
+    expect(tracker.startPointers.get(pointerId)).toBe(event);
 
     tracker.move.subscribe();
 
@@ -47,6 +51,8 @@ describe('PoinerTracker', () => {
 
     expect(tracker.currentPointers.size).toEqual(2);
     expect(tracker.currentPointers.get(pointerId)).toBe(event);
+    expect(tracker.previousPointers.size).toEqual(2);
+    expect(tracker.previousPointers.get(pointerId)).not.toBe(event);
 
     pointerId = 2;
     event = new PointerEvent('pointermove', { pointerId });
@@ -54,6 +60,8 @@ describe('PoinerTracker', () => {
 
     expect(tracker.currentPointers.size).toEqual(2);
     expect(tracker.currentPointers.get(pointerId)).toBe(event);
+    expect(tracker.previousPointers.size).toEqual(2);
+    expect(tracker.previousPointers.get(pointerId)).not.toBe(event);
 
     tracker.end.subscribe();
 
@@ -63,6 +71,10 @@ describe('PoinerTracker', () => {
 
     expect(tracker.currentPointers.size).toEqual(1);
     expect(tracker.currentPointers.get(pointerId)).toBeUndefined();
+    expect(tracker.previousPointers.size).toEqual(1);
+    expect(tracker.previousPointers.get(pointerId)).toBeUndefined();
+    expect(tracker.startPointers.size).toEqual(1);
+    expect(tracker.startPointers.get(pointerId)).toBeUndefined();
 
     pointerId = 2;
     event = new PointerEvent('pointerup', { pointerId });
@@ -70,5 +82,9 @@ describe('PoinerTracker', () => {
 
     expect(tracker.currentPointers.size).toEqual(0);
     expect(tracker.currentPointers.get(pointerId)).toBeUndefined();
+    expect(tracker.previousPointers.size).toEqual(0);
+    expect(tracker.previousPointers.get(pointerId)).toBeUndefined();
+    expect(tracker.startPointers.size).toEqual(0);
+    expect(tracker.startPointers.get(pointerId)).toBeUndefined();
   });
 });
