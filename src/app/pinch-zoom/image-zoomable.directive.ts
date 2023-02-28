@@ -19,10 +19,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
-import {
-  PointerTracker,
-  PointerTrackerFactory,
-} from '../pointer/pointer-tracker';
+import { PointerTrackerFactory } from '../pointer/pointer-tracker';
 import { getDistance } from '../utils/math';
 import { ApzImageDirective } from './image.directive';
 
@@ -36,12 +33,11 @@ export class ApzImageZoomableDirective implements AfterViewInit, OnDestroy {
   #elementRef = inject(ElementRef<HTMLElement>);
   #image = inject(ApzImageDirective, { self: true });
   #pointerTrackerFactory = inject(PointerTrackerFactory);
-  #pointerTracker!: PointerTracker;
   #destroyed = new Subject<void>();
 
   ngAfterViewInit() {
     const element = coerceElement(this.#elementRef);
-    this.#pointerTracker = this.#pointerTrackerFactory.create(
+    const pointerTracker = this.#pointerTrackerFactory.create(
       coerceElement(element)
     );
 
@@ -79,31 +75,31 @@ export class ApzImageZoomableDirective implements AfterViewInit, OnDestroy {
       )
       .subscribe((scale) => this.#image.zoom(scale));
 
-    this.#pointerTracker.start
+    pointerTracker.start
       .pipe(
         takeUntil(this.#destroyed),
-        filter(() => this.#pointerTracker.currentPointers.size === 2),
+        filter(() => pointerTracker.currentPointers.size === 2),
         tap((event: PointerEvent) => event.preventDefault()),
         switchMap(() =>
-          this.#pointerTracker.move.pipe(
+          pointerTracker.move.pipe(
             takeUntil(
-              this.#pointerTracker.end.pipe(
-                filter(() => this.#pointerTracker.currentPointers.size === 0)
+              pointerTracker.end.pipe(
+                filter(() => pointerTracker.currentPointers.size === 0)
               )
             ),
             filter(
               () =>
-                this.#pointerTracker.previousPointers.size === 2 &&
-                this.#pointerTracker.currentPointers.size === 2
+                pointerTracker.previousPointers.size === 2 &&
+                pointerTracker.currentPointers.size === 2
             ),
             tap((event: PointerEvent) => event.preventDefault()),
             exhaustMap(() =>
               forkJoin({
                 previous: of(
-                  Array.from(this.#pointerTracker.previousPointers.values())
+                  Array.from(pointerTracker.previousPointers.values())
                 ),
                 current: of(
-                  Array.from(this.#pointerTracker.currentPointers.values())
+                  Array.from(pointerTracker.currentPointers.values())
                 ),
               }).pipe(
                 map(
