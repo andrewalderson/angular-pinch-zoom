@@ -78,7 +78,6 @@ export class ApzImageZoomableDirective implements AfterViewInit, OnDestroy {
     pointerTracker.start
       .pipe(
         takeUntil(this.#destroyed),
-        filter(() => pointerTracker.currentPointers.size === 2),
         tap((event: PointerEvent) => event.preventDefault()),
         switchMap(() =>
           pointerTracker.move.pipe(
