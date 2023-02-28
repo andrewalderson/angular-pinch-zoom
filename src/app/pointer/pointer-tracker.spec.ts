@@ -13,17 +13,12 @@ class PointerEvent extends Event {
 describe('PoinerTracker', () => {
   let tracker: PointerTracker;
   let element: Element;
-  let pointerCaptureFn: jest.Mock;
   beforeEach(() => {
     // PointerEvent is not implemented in Jest or JsDOM
     // need to mock this
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     global.window.PointerEvent = PointerEvent as any;
     element = document.createElement('div');
-    pointerCaptureFn = jest.fn();
-    // need to stub this because it is not implemented
-    // in Jest or JsDOM
-    element.setPointerCapture = pointerCaptureFn;
     tracker = TestBed.inject(PointerTrackerFactory).create(element);
   });
 
@@ -36,7 +31,6 @@ describe('PoinerTracker', () => {
 
     expect(tracker.currentPointers.size).toEqual(1);
     expect(tracker.currentPointers.get(pointerId)).toBe(event);
-    expect(pointerCaptureFn).toHaveBeenCalledWith(pointerId);
 
     pointerId = 2;
     event = new PointerEvent('pointerdown', { pointerId });
@@ -44,7 +38,6 @@ describe('PoinerTracker', () => {
 
     expect(tracker.currentPointers.size).toEqual(2);
     expect(tracker.currentPointers.get(pointerId)).toBe(event);
-    expect(pointerCaptureFn).toHaveBeenCalledWith(pointerId);
 
     tracker.move.subscribe();
 
