@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@angular/core';
-import { filter, fromEventPattern, Observable, tap } from 'rxjs';
+import { fromEventPattern, Observable, tap } from 'rxjs';
 
 class Pointer {
   current: PointerEvent;
@@ -42,8 +42,6 @@ class PointerTracker {
       (handler) => target.addEventListener('pointermove', handler),
       (handler) => target.removeEventListener('pointermove', handler)
     ).pipe(
-      tap((event) => this.#pointers.get(event.pointerId)),
-      filter((event) => !!this.#pointers.get(event.pointerId)),
       tap((event: PointerEvent) => {
         const pointer = this.#pointers.get(event.pointerId);
         if (pointer) {
