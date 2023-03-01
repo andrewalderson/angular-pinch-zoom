@@ -22,26 +22,36 @@ describe('PoinerTracker', () => {
     tracker = TestBed.inject(PointerTrackerFactory).create(element);
   });
 
-  it('should add, update and delete the events in the pointer maps', async () => {
+  it('should add, update and delete the events in the pointers map', async () => {
     tracker.start.subscribe();
 
     let pointerId = 1;
     let event = new PointerEvent('pointerdown', { pointerId });
     element.dispatchEvent(event);
 
-    expect(tracker.currentPointers.size).toEqual(1);
-    expect(tracker.currentPointers.get(pointerId)).toBe(event);
-    expect(tracker.startPointers.size).toEqual(1);
-    expect(tracker.startPointers.get(pointerId)).toBe(event);
+    let pointer1 = {
+      initial: event,
+      previous: event,
+      current: event,
+    };
+    expect(tracker.pointers.size).toEqual(1);
+    expect(tracker.pointers.get(pointerId)).toEqual(
+      expect.objectContaining(pointer1)
+    );
 
     pointerId = 2;
     event = new PointerEvent('pointerdown', { pointerId });
     element.dispatchEvent(event);
 
-    expect(tracker.currentPointers.size).toEqual(2);
-    expect(tracker.currentPointers.get(pointerId)).toBe(event);
-    expect(tracker.startPointers.size).toEqual(2);
-    expect(tracker.startPointers.get(pointerId)).toBe(event);
+    let pointer2 = {
+      initial: event,
+      previous: event,
+      current: event,
+    };
+    expect(tracker.pointers.size).toEqual(2);
+    expect(tracker.pointers.get(pointerId)).toEqual(
+      expect.objectContaining(pointer2)
+    );
 
     tracker.move.subscribe();
 
@@ -49,19 +59,29 @@ describe('PoinerTracker', () => {
     event = new PointerEvent('pointermove', { pointerId });
     element.dispatchEvent(event);
 
-    expect(tracker.currentPointers.size).toEqual(2);
-    expect(tracker.currentPointers.get(pointerId)).toBe(event);
-    expect(tracker.previousPointers.size).toEqual(2);
-    expect(tracker.previousPointers.get(pointerId)).not.toBe(event);
+    pointer1 = {
+      initial: event,
+      previous: pointer1.current,
+      current: event,
+    };
+    expect(tracker.pointers.size).toEqual(2);
+    expect(tracker.pointers.get(pointerId)).toEqual(
+      expect.objectContaining(pointer1)
+    );
 
     pointerId = 2;
     event = new PointerEvent('pointermove', { pointerId });
     element.dispatchEvent(event);
 
-    expect(tracker.currentPointers.size).toEqual(2);
-    expect(tracker.currentPointers.get(pointerId)).toBe(event);
-    expect(tracker.previousPointers.size).toEqual(2);
-    expect(tracker.previousPointers.get(pointerId)).not.toBe(event);
+    pointer2 = {
+      initial: event,
+      previous: pointer2.current,
+      current: event,
+    };
+    expect(tracker.pointers.size).toEqual(2);
+    expect(tracker.pointers.get(pointerId)).toEqual(
+      expect.objectContaining(pointer2)
+    );
 
     tracker.end.subscribe();
 
@@ -69,22 +89,14 @@ describe('PoinerTracker', () => {
     event = new PointerEvent('pointerup', { pointerId });
     element.dispatchEvent(event);
 
-    expect(tracker.currentPointers.size).toEqual(1);
-    expect(tracker.currentPointers.get(pointerId)).toBeUndefined();
-    expect(tracker.previousPointers.size).toEqual(1);
-    expect(tracker.previousPointers.get(pointerId)).toBeUndefined();
-    expect(tracker.startPointers.size).toEqual(1);
-    expect(tracker.startPointers.get(pointerId)).toBeUndefined();
+    expect(tracker.pointers.size).toEqual(1);
+    expect(tracker.pointers.get(pointerId)).toBeUndefined();
 
     pointerId = 2;
     event = new PointerEvent('pointerup', { pointerId });
     element.dispatchEvent(event);
 
-    expect(tracker.currentPointers.size).toEqual(0);
-    expect(tracker.currentPointers.get(pointerId)).toBeUndefined();
-    expect(tracker.previousPointers.size).toEqual(0);
-    expect(tracker.previousPointers.get(pointerId)).toBeUndefined();
-    expect(tracker.startPointers.size).toEqual(0);
-    expect(tracker.startPointers.get(pointerId)).toBeUndefined();
+    expect(tracker.pointers.size).toEqual(0);
+    expect(tracker.pointers.get(pointerId)).toBeUndefined();
   });
 });

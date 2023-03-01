@@ -333,6 +333,8 @@ export const trackpadScaleSteps = [
   },
 ];
 
+const pointer1Pos = 100;
+const pointer2Pos = 200;
 const touchScaleSteps = [
   {
     imageWidth: 400,
@@ -344,8 +346,8 @@ const touchScaleSteps = [
           type: 'pointerdown',
           options: {
             pointerId: 1,
-            x: 50,
-            y: 50,
+            x: pointer1Pos,
+            y: pointer1Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -359,8 +361,8 @@ const touchScaleSteps = [
           type: 'pointermove',
           options: {
             pointerId: 1,
-            x: 60,
-            y: 60,
+            x: pointer1Pos - 10,
+            y: pointer1Pos - 10,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -374,8 +376,8 @@ const touchScaleSteps = [
           type: 'pointerdown',
           options: {
             pointerId: 2,
-            x: 50,
-            y: 50,
+            x: pointer2Pos,
+            y: pointer2Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -388,9 +390,9 @@ const touchScaleSteps = [
         event: {
           type: 'pointermove',
           options: {
-            pointerId: 1,
-            x: 70,
-            y: 70,
+            pointerId: 2,
+            x: pointer2Pos + 10,
+            y: pointer2Pos + 10,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -403,9 +405,9 @@ const touchScaleSteps = [
         event: {
           type: 'pointermove',
           options: {
-            pointerId: 2,
-            x: 40,
-            y: 40,
+            pointerId: 1,
+            x: pointer1Pos - 20,
+            y: pointer1Pos - 20,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -419,8 +421,53 @@ const touchScaleSteps = [
           type: 'pointermove',
           options: {
             pointerId: 2,
-            x: 50,
-            y: 50,
+            x: pointer2Pos + 20,
+            y: pointer2Pos + 20,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -66.2,
+        y: -66.2,
+        width: 532.4,
+        height: 532.4,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: pointer1Pos - 10,
+            y: pointer1Pos - 10,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -66.2,
+        y: -66.2,
+        width: 532.4,
+        height: 532.4,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 2,
+            x: pointer2Pos + 10,
+            y: pointer2Pos + 10,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -42,
+        y: -42,
+        width: 484,
+        height: 484,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: pointer1Pos,
+            y: pointer1Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -433,9 +480,9 @@ const touchScaleSteps = [
         event: {
           type: 'pointermove',
           options: {
-            pointerId: 1,
-            x: 60,
-            y: 60,
+            pointerId: 2,
+            x: pointer2Pos,
+            y: pointer2Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -449,8 +496,8 @@ const touchScaleSteps = [
           type: 'pointerup',
           options: {
             pointerId: 1,
-            x: 60,
-            y: 60,
+            x: pointer1Pos,
+            y: pointer1Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -464,8 +511,8 @@ const touchScaleSteps = [
           type: 'pointermove',
           options: {
             pointerId: 2,
-            x: 70,
-            y: 70,
+            x: pointer2Pos + 10,
+            y: pointer2Pos + 10,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -479,8 +526,8 @@ const touchScaleSteps = [
           type: 'pointerup',
           options: {
             pointerId: 2,
-            x: 70,
-            y: 70,
+            x: pointer2Pos + 10,
+            y: pointer2Pos + 10,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -501,8 +548,8 @@ const touchScaleSteps = [
           type: 'pointerdown',
           options: {
             pointerId: 1,
-            x: 50,
-            y: 50,
+            x: pointer1Pos,
+            y: pointer1Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -516,8 +563,8 @@ const touchScaleSteps = [
           type: 'pointermove',
           options: {
             pointerId: 1,
-            x: 60,
-            y: 60,
+            x: pointer1Pos - 10,
+            y: pointer1Pos - 10,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -531,8 +578,8 @@ const touchScaleSteps = [
           type: 'pointerdown',
           options: {
             pointerId: 2,
-            x: 50,
-            y: 50,
+            x: pointer2Pos,
+            y: pointer2Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -545,9 +592,9 @@ const touchScaleSteps = [
         event: {
           type: 'pointermove',
           options: {
-            pointerId: 1,
-            x: 70,
-            y: 70,
+            pointerId: 2,
+            x: pointer2Pos + 10,
+            y: pointer2Pos + 10,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -560,9 +607,9 @@ const touchScaleSteps = [
         event: {
           type: 'pointermove',
           options: {
-            pointerId: 2,
-            x: 40,
-            y: 40,
+            pointerId: 1,
+            x: pointer1Pos - 20,
+            y: pointer1Pos - 20,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -576,8 +623,53 @@ const touchScaleSteps = [
           type: 'pointermove',
           options: {
             pointerId: 2,
-            x: 50,
-            y: 50,
+            x: pointer2Pos + 20,
+            y: pointer2Pos + 20,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -145.6,
+        y: -145.6,
+        width: 691.2,
+        height: 691.2,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: pointer1Pos - 10,
+            y: pointer1Pos - 10,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -145.6,
+        y: -145.6,
+        width: 691.2,
+        height: 691.2,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 2,
+            x: pointer2Pos + 10,
+            y: pointer2Pos + 10,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -88,
+        y: -88,
+        width: 576,
+        height: 576,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: pointer1Pos,
+            y: pointer1Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -590,9 +682,9 @@ const touchScaleSteps = [
         event: {
           type: 'pointermove',
           options: {
-            pointerId: 1,
-            x: 60,
-            y: 60,
+            pointerId: 2,
+            x: pointer2Pos,
+            y: pointer2Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -606,8 +698,8 @@ const touchScaleSteps = [
           type: 'pointerup',
           options: {
             pointerId: 1,
-            x: 60,
-            y: 60,
+            x: pointer1Pos,
+            y: pointer1Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -621,8 +713,8 @@ const touchScaleSteps = [
           type: 'pointermove',
           options: {
             pointerId: 2,
-            x: 70,
-            y: 70,
+            x: pointer2Pos + 10,
+            y: pointer2Pos + 10,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -636,8 +728,8 @@ const touchScaleSteps = [
           type: 'pointerup',
           options: {
             pointerId: 2,
-            x: 70,
-            y: 70,
+            x: pointer2Pos + 10,
+            y: pointer2Pos + 10,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -658,8 +750,8 @@ const touchScaleSteps = [
           type: 'pointerdown',
           options: {
             pointerId: 1,
-            x: 50,
-            y: 50,
+            x: pointer1Pos,
+            y: pointer1Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -673,8 +765,8 @@ const touchScaleSteps = [
           type: 'pointermove',
           options: {
             pointerId: 1,
-            x: 60,
-            y: 60,
+            x: pointer1Pos - 10,
+            y: pointer1Pos - 10,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -688,8 +780,8 @@ const touchScaleSteps = [
           type: 'pointerdown',
           options: {
             pointerId: 2,
-            x: 50,
-            y: 50,
+            x: pointer2Pos,
+            y: pointer2Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -702,9 +794,9 @@ const touchScaleSteps = [
         event: {
           type: 'pointermove',
           options: {
-            pointerId: 1,
-            x: 70,
-            y: 70,
+            pointerId: 2,
+            x: pointer2Pos + 10,
+            y: pointer2Pos + 10,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -717,9 +809,9 @@ const touchScaleSteps = [
         event: {
           type: 'pointermove',
           options: {
-            pointerId: 2,
-            x: 40,
-            y: 40,
+            pointerId: 1,
+            x: pointer1Pos - 20,
+            y: pointer1Pos - 20,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -733,8 +825,53 @@ const touchScaleSteps = [
           type: 'pointermove',
           options: {
             pointerId: 2,
-            x: 50,
-            y: 50,
+            x: pointer2Pos + 20,
+            y: pointer2Pos + 20,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -239.4,
+        y: -239.4,
+        width: 878.8,
+        height: 878.8,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: pointer1Pos - 10,
+            y: pointer1Pos - 10,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -239.4,
+        y: -239.4,
+        width: 878.8,
+        height: 878.8,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 2,
+            x: pointer2Pos + 10,
+            y: pointer2Pos + 10,
+            eventConstructor: 'PointerEvent',
+          },
+        },
+        x: -138,
+        y: -138,
+        width: 676,
+        height: 676,
+      },
+      {
+        event: {
+          type: 'pointermove',
+          options: {
+            pointerId: 1,
+            x: pointer1Pos,
+            y: pointer1Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -747,9 +884,9 @@ const touchScaleSteps = [
         event: {
           type: 'pointermove',
           options: {
-            pointerId: 1,
-            x: 60,
-            y: 60,
+            pointerId: 2,
+            x: pointer2Pos,
+            y: pointer2Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -763,8 +900,8 @@ const touchScaleSteps = [
           type: 'pointerup',
           options: {
             pointerId: 1,
-            x: 60,
-            y: 60,
+            x: pointer1Pos,
+            y: pointer1Pos,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -778,8 +915,8 @@ const touchScaleSteps = [
           type: 'pointermove',
           options: {
             pointerId: 2,
-            x: 70,
-            y: 70,
+            x: pointer2Pos + 10,
+            y: pointer2Pos + 10,
             eventConstructor: 'PointerEvent',
           },
         },
@@ -793,8 +930,8 @@ const touchScaleSteps = [
           type: 'pointerup',
           options: {
             pointerId: 2,
-            x: 70,
-            y: 70,
+            x: pointer2Pos + 10,
+            y: pointer2Pos + 10,
             eventConstructor: 'PointerEvent',
           },
         },

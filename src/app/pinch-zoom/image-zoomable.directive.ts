@@ -8,12 +8,9 @@ import {
   OnDestroy,
 } from '@angular/core';
 import {
-  exhaustMap,
   filter,
-  forkJoin,
   fromEventPattern,
   map,
-  of,
   Subject,
   switchMap,
   takeUntil,
@@ -83,33 +80,19 @@ export class ApzImageZoomableDirective implements AfterViewInit, OnDestroy {
           pointerTracker.move.pipe(
             takeUntil(
               pointerTracker.end.pipe(
-                filter(() => pointerTracker.currentPointers.size === 0)
+                filter(() => pointerTracker.pointers.size === 0)
               )
             ),
-            filter(
-              () =>
-                pointerTracker.previousPointers.size === 2 &&
-                pointerTracker.currentPointers.size === 2
-            ),
+            filter(() => pointerTracker.pointers.size === 2),
             tap((event: PointerEvent) => event.preventDefault()),
-            exhaustMap(() =>
-              forkJoin({
-                previous: of(
-                  Array.from(pointerTracker.previousPointers.values())
-                ),
-                current: of(
-                  Array.from(pointerTracker.currentPointers.values())
-                ),
-              }).pipe(
-                map(
-                  ({ previous, current }) =>
-                    (getDistance(current[0], current[1]) -
-                      getDistance(previous[0], previous[1])) *
-                    0.1
-                ),
-                filter((scale) => scale !== 0)
-              )
-            )
+            map(() => Array.from(pointerTracker.pointers.values())),
+            map(
+              (pointers) =>
+                (getDistance(pointers[0].current, pointers[1].current) -
+                  getDistance(pointers[0].previous, pointers[1].previous)) *
+                0.1
+            ),
+            filter((scale) => scale !== 0)
           )
         )
       )
