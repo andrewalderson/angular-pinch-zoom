@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ApzImageZoomableDirective } from './pinch-zoom/image-zoomable.directive';
-import { ApzImageDirective } from './pinch-zoom/image.directive';
+import { ApzImageZoomableDirective } from './image/image-zoomable.directive';
+import { ApzImageDirective } from './image/image.directive';
 
 @Component({
   standalone: true,
