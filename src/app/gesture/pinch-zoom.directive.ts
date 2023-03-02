@@ -33,7 +33,6 @@ export class PinchZoomDirective implements AfterViewInit, OnDestroy {
     pointerTracker.start
       .pipe(
         takeUntil(this.#destroyed),
-        tap((event: PointerEvent) => event.preventDefault()),
         switchMap(() =>
           pointerTracker.move.pipe(
             takeUntil(

@@ -33,6 +33,7 @@ class PointerTracker {
       (handler) => target.addEventListener('pointerdown', handler),
       (handler) => target.removeEventListener('pointerdown', handler)
     ).pipe(
+      tap((event: PointerEvent) => event.preventDefault()),
       tap((event: PointerEvent) => {
         this.#pointers.set(event.pointerId, new Pointer(event));
       })
