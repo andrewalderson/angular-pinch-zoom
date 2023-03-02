@@ -7,36 +7,26 @@ import {
   inject,
   OnDestroy,
 } from '@angular/core';
-import {
-  filter,
-  fromEventPattern,
-  map,
-  Subject,
-  switchMap,
-  takeUntil,
-  tap,
-} from 'rxjs';
-import { PointerTrackerFactory } from '../pointer/pointer-tracker';
-import { getDistance } from '../utils/math';
+import { filter, fromEventPattern, map, Subject, takeUntil, tap } from 'rxjs';
+import { PinchZoomDirective } from '../gesture/pinch-zoom.directive';
 import { ApzImageDirective } from './image.directive';
 
 @Directive({
   selector: '[apzImage][zoomable]',
   standalone: true,
+  hostDirectives: [PinchZoomDirective],
 })
 export class ApzImageZoomableDirective implements AfterViewInit, OnDestroy {
   @HostBinding('class') readonly _hostClasses = 'apz-image--zoomable';
 
   #elementRef = inject(ElementRef<HTMLElement>);
   #image = inject(ApzImageDirective, { self: true });
-  #pointerTrackerFactory = inject(PointerTrackerFactory);
   #destroyed = new Subject<void>();
+
+  #pinchZoom = inject(PinchZoomDirective, { self: true });
 
   ngAfterViewInit() {
     const element = coerceElement(this.#elementRef);
-    const pointerTracker = this.#pointerTrackerFactory.create(
-      coerceElement(element)
-    );
 
     fromEventPattern<WheelEvent>(
       (handler) =>
@@ -72,31 +62,9 @@ export class ApzImageZoomableDirective implements AfterViewInit, OnDestroy {
       )
       .subscribe((scale) => this.#image.zoom(scale));
 
-    pointerTracker.start
-      .pipe(
-        takeUntil(this.#destroyed),
-        tap((event: PointerEvent) => event.preventDefault()),
-        switchMap(() =>
-          pointerTracker.move.pipe(
-            takeUntil(
-              pointerTracker.end.pipe(
-                filter(() => pointerTracker.pointers.size === 0)
-              )
-            ),
-            filter(() => pointerTracker.pointers.size === 2),
-            tap((event: PointerEvent) => event.preventDefault()),
-            map(() => Array.from(pointerTracker.pointers.values())),
-            map(
-              (pointers) =>
-                (getDistance(pointers[0].current, pointers[1].current) -
-                  getDistance(pointers[0].previous, pointers[1].previous)) *
-                0.1
-            ),
-            filter((scale) => scale !== 0)
-          )
-        )
-      )
-      .subscribe((scale: number) => this.#image.zoom(scale));
+    this.#pinchZoom.distanceChanged
+      .pipe(takeUntil(this.#destroyed))
+      .subscribe((distance) => this.#image.zoom(distance * 0.1));
   }
 
   ngOnDestroy(): void {
