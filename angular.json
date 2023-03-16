@@ -44,18 +44,14 @@
             "outputPath": "dist/angular-pinch-zoom",
             "index": "projects/angular-pinch-zoom/src/index.html",
             "main": "projects/angular-pinch-zoom/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "projects/angular-pinch-zoom/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/angular-pinch-zoom/src/favicon.ico",
               "projects/angular-pinch-zoom/src/assets"
             ],
-            "styles": [
-              "projects/angular-pinch-zoom/src/styles.scss"
-            ],
+            "styles": ["projects/angular-pinch-zoom/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -101,6 +97,13 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "angular-pinch-zoom:build"
+          }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "https://andrewalderson.github.io/angular-pinch-zoom/",
+            "cname": "false"
           }
         }
       }
