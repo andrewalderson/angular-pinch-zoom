@@ -35,5 +35,5 @@ import { ApzImageDirective } from "./image/image.directive";
   ],
 })
 export class AppComponent {
-  src = "/assets/jigar-panchal-PMe9O1ZzOjo-unsplash.jpg";
+  src = "assets/jigar-panchal-PMe9O1ZzOjo-unsplash.jpg";
 }
